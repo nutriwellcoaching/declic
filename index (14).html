@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Déclic — NutriWell by Clémence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --capucine:#DB6350;
+    --capucine-fonce:#B84F3F;
+    --ballerine:#ECB5B0;
+    --ballerine-soft:#F8E5E2;
+    --creme:#FAF7F5;
+    --brun:#2D2326;
+    --brun-moyen:#6b5d60;
+    --blanc:#ffffff;
+    --ombre:0 18px 50px -20px rgba(184,79,63,.28);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+
+  html{-webkit-font-smoothing:antialiased}
+
+  body{
+    font-family:'Open Sans',system-ui,sans-serif;
+    background:
+      radial-gradient(120% 80% at 50% -10%, var(--ballerine-soft) 0%, transparent 55%),
+      var(--creme);
+    color:var(--brun);
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px 18px;
+    line-height:1.55;
+  }
+
+  .frame{
+    width:100%;
+    max-width:560px;
+    position:relative;
+  }
+
+  /* ---- carte ---- */
+  .card{
+    background:var(--blanc);
+    border-radius:26px;
+    padding:42px 36px 38px;
+    box-shadow:var(--ombre);
+    position:relative;
+    overflow:hidden;
+  }
+  .card::before{
+    content:"";
+    position:absolute;
+    top:0;left:0;right:0;
+    height:5px;
+    background:linear-gradient(90deg,var(--ballerine),var(--capucine),var(--capucine-fonce));
+  }
+
+  /* ---- en-tête marque ---- */
+  .brand{
+    text-align:center;
+    margin-bottom:6px;
+  }
+  .brand .mono{
+    font-family:'Playfair Display',serif;
+    font-weight:700;
+    color:var(--capucine);
+    font-size:13px;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+  }
+  .brand .sub{
+    font-size:9.5px;
+    letter-spacing:.42em;
+    text-transform:uppercase;
+    color:var(--brun-moyen);
+    margin-top:3px;
+  }
+
+  /* ---- barre de progression ---- */
+  .progress-wrap{
+    margin:26px 0 30px;
+    display:none;
+  }
+  .progress-wrap.show{display:block}
+  .progress-meta{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:9px;
+  }
+  .progress-meta .step{
+    font-family:'Playfair Display',serif;
+    font-style:italic;
+    font-size:14px;
+    color:var(--capucine);
+  }
+  .progress-meta .flower{color:var(--ballerine);font-size:13px;letter-spacing:.25em}
+  .bar{
+    height:6px;
+    background:var(--ballerine-soft);
+    border-radius:99px;
+    overflow:hidden;
+  }
+  .bar-fill{
+    height:100%;
+    width:0;
+    background:linear-gradient(90deg,var(--ballerine),var(--capucine));
+    border-radius:99px;
+    transition:width .45s cubic-bezier(.4,0,.2,1);
+  }
+
+  /* ---- écrans ---- */
+  .screen{display:none;animation:rise .5s cubic-bezier(.2,.7,.3,1)}
+  .screen.active{display:block}
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+  /* ---- accueil ---- */
+  .eyebrow{
+    text-align:center;
+    font-size:11px;
+    letter-spacing:.3em;
+    text-transform:uppercase;
+    color:var(--capucine);
+    margin-bottom:18px;
+    font-weight:600;
+  }
+  h1{
+    font-family:'Playfair Display',serif;
+    font-weight:600;
+    font-size:clamp(38px,11vw,54px);
+    line-height:.98;
+    text-align:center;
+    letter-spacing:-.5px;
+    margin-bottom:4px;
+  }
+  h1 .accent{color:var(--capucine);font-style:italic}
+  .flower-divider{
+    text-align:center;
+    color:var(--ballerine);
+    font-size:16px;
+    letter-spacing:.4em;
+    margin:20px 0 22px;
+  }
+  .lede{
+    font-size:16.5px;
+    color:var(--brun);
+    text-align:center;
+    max-width:42ch;
+    margin:0 auto 8px;
+  }
+  .lede strong{color:var(--capucine-fonce);font-weight:600}
+  .lede.small{font-size:14.5px;color:var(--brun-moyen);margin-top:14px}
+
+  /* ---- questions ---- */
+  .q-text{
+    font-family:'Playfair Display',serif;
+    font-weight:500;
+    font-size:clamp(24px,6.5vw,30px);
+    line-height:1.18;
+    margin-bottom:24px;
+    letter-spacing:-.3px;
+  }
+  .options{display:flex;flex-direction:column;gap:11px}
+  .opt{
+    text-align:left;
+    background:var(--creme);
+    border:1.5px solid var(--ballerine-soft);
+    border-radius:15px;
+    padding:17px 19px;
+    font-family:inherit;
+    font-size:15.5px;
+    color:var(--brun);
+    cursor:pointer;
+    transition:all .18s ease;
+    line-height:1.4;
+    position:relative;
+    width:100%;
+  }
+  .opt:hover{
+    border-color:var(--ballerine);
+    background:var(--ballerine-soft);
+    transform:translateX(3px);
+  }
+  .opt:focus-visible{outline:2.5px solid var(--capucine);outline-offset:2px}
+  .opt.chosen{
+    border-color:var(--capucine);
+    background:var(--ballerine-soft);
+    box-shadow:0 6px 18px -10px rgba(219,99,80,.5);
+  }
+
+  /* ---- capture ---- */
+  .capture-title{
+    font-family:'Playfair Display',serif;
+    font-weight:600;
+    font-size:clamp(30px,8vw,42px);
+    text-align:center;
+    margin-bottom:18px;
+    letter-spacing:-.3px;
+  }
+  .capture-body{
+    font-size:16px;
+    text-align:center;
+    color:var(--brun);
+    max-width:44ch;
+    margin:0 auto 8px;
+  }
+  .capture-body + .capture-body{margin-top:13px;color:var(--brun-moyen);font-size:15px}
+  .fields{margin:26px 0 8px;display:flex;flex-direction:column;gap:13px}
+  .field label{
+    display:block;
+    font-size:12px;
+    letter-spacing:.04em;
+    color:var(--brun-moyen);
+    margin-bottom:6px;
+    font-weight:600;
+  }
+  .field input{
+    width:100%;
+    border:1.5px solid var(--ballerine-soft);
+    background:var(--creme);
+    border-radius:13px;
+    padding:14px 16px;
+    font-family:inherit;
+    font-size:15.5px;
+    color:var(--brun);
+    transition:border-color .18s;
+  }
+  .field input:focus{outline:none;border-color:var(--capucine)}
+  .field input::placeholder{color:#b9adaf}
+
+  /* ---- boutons ---- */
+  .cta{
+    display:block;
+    width:100%;
+    margin-top:22px;
+    background:linear-gradient(135deg,var(--capucine),var(--capucine-fonce));
+    color:var(--blanc);
+    border:none;
+    border-radius:99px;
+    padding:18px 28px;
+    font-family:'Open Sans',sans-serif;
+    font-weight:600;
+    font-size:16px;
+    cursor:pointer;
+    letter-spacing:.01em;
+    box-shadow:0 14px 30px -12px rgba(184,79,63,.6);
+    transition:transform .16s ease,box-shadow .16s ease;
+  }
+  .cta:hover{transform:translateY(-2px);box-shadow:0 20px 38px -12px rgba(184,79,63,.7)}
+  .cta:focus-visible{outline:2.5px solid var(--brun);outline-offset:3px}
+  .cta.ghost{
+    background:transparent;
+    color:var(--capucine);
+    box-shadow:none;
+    font-size:14px;
+    padding:10px;
+    margin-top:14px;
+  }
+  .cta.ghost:hover{transform:none;text-decoration:underline}
+
+  .reassure{
+    text-align:center;
+    font-size:12.5px;
+    color:var(--brun-moyen);
+    margin-top:15px;
+  }
+
+  /* ---- back link ---- */
+  .back{
+    background:none;border:none;
+    color:var(--brun-moyen);
+    font-family:inherit;font-size:13px;
+    cursor:pointer;margin-bottom:18px;
+    display:none;padding:4px 0;
+  }
+  .back.show{display:inline-block}
+  .back:hover{color:var(--capucine)}
+
+  .footnote{
+    text-align:center;
+    font-size:10.5px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--brun-moyen);
+    margin-top:24px;
+    opacity:.7;
+  }
+
+  @media(max-width:480px){
+    .card{padding:34px 22px 30px;border-radius:22px}
+  }
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="card">
+
+    <div class="brand">
+      <div class="mono">NutriWell</div>
+      <div class="sub">by Clémence</div>
+    </div>
+
+    <!-- progression -->
+    <div class="progress-wrap" id="progressWrap">
+      <div class="progress-meta">
+        <span class="step" id="stepLabel">Question 1</span>
+        <span class="flower">✿</span>
+      </div>
+      <div class="bar"><div class="bar-fill" id="barFill"></div></div>
+    </div>
+
+    <button class="back" id="backBtn">← retour</button>
+
+    <!-- ÉCRAN ACCUEIL -->
+    <section class="screen active" id="screen-intro">
+      <div class="eyebrow">Le parcours offert</div>
+      <h1>Le <span class="accent">Déclic</span></h1>
+      <div class="flower-divider">✿ ✿ ✿</div>
+      <p class="lede">Tu as déjà tout essayé. Tu sais quoi faire. Et pourtant, à chaque fois, ça finit par lâcher.</p>
+      <p class="lede" style="margin-top:14px;font-family:'Playfair Display',serif;font-style:italic;font-size:19px;color:var(--capucine-fonce)">Et si le problème n'avait jamais été toi&nbsp;?</p>
+      <p class="lede small">7 questions pour voir clair sur ce qui se rejoue depuis des années — celui que personne ne t'a aidée à comprendre.</p>
+      <button class="cta" onclick="start()">Je commence&nbsp;→</button>
+      <div class="footnote">2 minutes · entre nous</div>
+    </section>
+
+    <!-- ÉCRANS QUESTIONS (générés en JS) -->
+    <section class="screen" id="screen-question">
+      <p class="q-text" id="qText"></p>
+      <div class="options" id="qOptions"></div>
+    </section>
+
+    <!-- ÉCRAN CAPTURE / REDIRECTION RDV -->
+    <section class="screen" id="screen-capture">
+      <h2 class="capture-title">C'est prêt. <span style="color:var(--ballerine)">✿</span></h2>
+      <p class="capture-body">J'ai analysé tes réponses, et j'ai préparé ta lecture personnalisée — celle qui t'explique pourquoi, jusqu'ici, rien n'a vraiment tenu.</p>
+      <p class="capture-body">Mais je ne veux pas te l'envoyer dans un mail que tu liras en diagonale. Ton résultat mérite qu'on prenne le temps de le regarder ensemble — pour qu'il te serve vraiment.</p>
+      <div class="fields">
+        <div class="field">
+          <label for="f-prenom">Ton prénom</label>
+          <input id="f-prenom" type="text" placeholder="Prénom" autocomplete="given-name">
+        </div>
+        <div class="field">
+          <label for="f-email">Ton email</label>
+          <input id="f-email" type="email" placeholder="prenom@email.com" autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="f-tel">Ton téléphone</label>
+          <input id="f-tel" type="tel" placeholder="06 .. .. .. .." autocomplete="tel">
+        </div>
+      </div>
+      <button class="cta" onclick="submitQuiz()">Je réserve ma consultation pour découvrir mon résultat&nbsp;→</button>
+      <p class="reassure">Un échange offert, sans engagement. Tes réponses restent entre nous. ✿</p>
+    </section>
+
+    <!-- ÉCRAN CONFIRMATION (placeholder post-booking) -->
+    <section class="screen" id="screen-done">
+      <h2 class="capture-title">À très vite. <span style="color:var(--ballerine)">✿</span></h2>
+      <p class="capture-body" id="doneText">Parfait&nbsp;! Tu vas être redirigée vers mon agenda pour choisir ton créneau.</p>
+      <p class="capture-body" style="font-style:italic;font-family:'Playfair Display',serif;color:var(--capucine-fonce);font-size:18px">On se retrouve très bientôt pour découvrir ensemble ce que tes réponses révèlent.</p>
+      <div class="footnote" style="margin-top:30px">Redirection vers l'agenda en cours…</div>
+    </section>
+
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   LE DÉCLIC — logique quizz
+   Scoring invisible : chaque réponse pointe un profil.
+   Profil dominant = résultat. Égalité => "tient" (axe central).
+   ============================================================ */
+
+const PROFILS = {
+  tient:   "Celle qui sait mais ne tient pas",
+  oublie:  "Celle qui s'oublie",
+  cadre:   "Celle qui tient dans le cadre, lâche en dehors",
+  avant:   "Celle qui regarde avant",
+  transi:  "Celle qui traverse un changement"
+};
+
+const QUESTIONS = [
+  {
+    q:"Aujourd'hui, ce qui te pèse le plus, c'est quoi ?",
+    opts:[
+      {t:"Je sais quoi faire… mais je n'arrive jamais à tenir dans la durée", p:"tient"},
+      {t:"Je porte tellement de choses que je passe toujours en dernier", p:"oublie"},
+      {t:"Quand je suis dans mon cadre je tiens, mais dès que ça lâche tout repart", p:"cadre"},
+      {t:"Je fais des efforts… mais mon corps ne répond plus comme avant", p:"avant"}
+    ]
+  },
+  {
+    q:"Tu as déjà essayé de t'y mettre. Ça s'est passé comment ?",
+    opts:[
+      {t:"Je connais les bases, j'applique… puis ça s'essouffle", p:"tient"},
+      {t:"Honnêtement je n'ai jamais vraiment le temps de m'y mettre pour moi", p:"oublie"},
+      {t:"Je tiens un moment, puis une sortie ou un weekend et tout repart", p:"cadre"},
+      {t:"J'ai déjà eu des résultats avant, mais là ça ne marche plus pareil", p:"avant"}
+    ]
+  },
+  {
+    q:"Le sucre, le grignotage, les envies… ça te parle ?",
+    opts:[
+      {t:"Je sais que je ne devrais pas, mais je craque quand même", p:"tient"},
+      {t:"Je grignote ce que j'ai sous la main, vite fait, entre deux trucs", p:"oublie"},
+      {t:"C'est surtout quand je relâche que ça part en vrille", p:"cadre"},
+      {t:"Avant je pouvais tout manger sans que ça se voie, plus maintenant", p:"avant"}
+    ]
+  },
+  {
+    q:"Quand tu penses à ton énergie au quotidien ?",
+    opts:[
+      {t:"J'ai l'énergie quand je suis motivée, mais ça ne dure pas", p:"tient"},
+      {t:"Je suis épuisée, je cours partout, je pense à tout le monde sauf moi", p:"oublie"},
+      {t:"Ça dépend des jours, je suis en dents de scie", p:"cadre"},
+      {t:"Je suis fatiguée alors que je fais tout « bien »", p:"avant"}
+    ]
+  },
+  {
+    q:"Au fond, ce que tu te dis le plus souvent c'est…",
+    opts:[
+      {t:"« Pourquoi je n'arrive jamais à tenir ? »", p:"tient"},
+      {t:"« Je m'oublie complètement, je passe toujours après »", p:"oublie"},
+      {t:"« Je sais faire, mais je n'arrive pas à être régulière »", p:"cadre"},
+      {t:"« Je ne me reconnais plus »", p:"avant"}
+    ]
+  },
+  {
+    q:"Et si rien ne change, ce qui t'inquiète le plus c'est…",
+    opts:[
+      {t:"De recommencer encore, indéfiniment", p:"tient"},
+      {t:"De continuer à m'oublier jusqu'à ne plus me sentir exister", p:"oublie"},
+      {t:"De ne jamais réussir à stabiliser quoi que ce soit", p:"cadre"},
+      {t:"De ne plus jamais me sentir bien dans mon corps", p:"avant"}
+    ]
+  },
+  {
+    q:"Pour mieux te comprendre, c'est quoi ta vie en ce moment ?",
+    opts:[
+      {t:"Boulot prenant, je cours après le temps", p:"tient"},
+      {t:"Les enfants, la maison, je gère tout de front", p:"oublie"},
+      {t:"Une période de changement (corps, hormones, rythme…)", p:"transi"},
+      {t:"Je m'entraîne, je suis active, mais ça ne suit pas", p:"avant"}
+    ]
+  }
+];
+
+let current = 0;           // index question
+const answers = [];        // {profil} par question
+
+const wrap   = document.getElementById('progressWrap');
+const fill   = document.getElementById('barFill');
+const label  = document.getElementById('stepLabel');
+const back   = document.getElementById('backBtn');
+
+const sIntro   = document.getElementById('screen-intro');
+const sQuestion= document.getElementById('screen-question');
+const sCapture = document.getElementById('screen-capture');
+const sDone    = document.getElementById('screen-done');
+
+const qText    = document.getElementById('qText');
+const qOptions = document.getElementById('qOptions');
+
+function show(el){
+  [sIntro,sQuestion,sCapture,sDone].forEach(s=>s.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function start(){
+  current = 0;
+  answers.length = 0;
+  wrap.classList.add('show');
+  renderQuestion();
+}
+
+function renderQuestion(){
+  const item = QUESTIONS[current];
+  qText.textContent = item.q;
+  qOptions.innerHTML = '';
+  item.opts.forEach((o,i)=>{
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.textContent = o.t;
+    if(answers[current] && answers[current].i===i) b.classList.add('chosen');
+    b.onclick = ()=>choose(o.p,i);
+    qOptions.appendChild(b);
+  });
+  // progression
+  const pct = (current/QUESTIONS.length)*100;
+  fill.style.width = pct + '%';
+  label.textContent = 'Question ' + (current+1);
+  back.classList.toggle('show', current>0);
+  show(sQuestion);
+}
+
+function choose(profil,i){
+  answers[current] = {profil, i};
+  // petit délai pour voir la sélection avant de glisser
+  setTimeout(()=>{
+    if(current < QUESTIONS.length-1){
+      current++;
+      renderQuestion();
+    } else {
+      fill.style.width = '100%';
+      goCapture();
+    }
+  },220);
+}
+
+back.onclick = ()=>{
+  if(current>0){ current--; renderQuestion(); }
+};
+
+function computeProfil(){
+  const tally = {};
+  answers.forEach(a=>{ tally[a.profil]=(tally[a.profil]||0)+1; });
+  let best='tient', max=-1;
+  // ordre de préférence en cas d'égalité : axe central d'abord
+  const tie = ['tient','oublie','cadre','avant','transi'];
+  tie.forEach(k=>{ if((tally[k]||0)>max){max=tally[k]||0;best=k;} });
+  return best;
+}
+
+function goCapture(){
+  wrap.classList.remove('show');
+  back.classList.remove('show');
+  show(sCapture);
+}
+
+function submitQuiz(){
+  const prenom = document.getElementById('f-prenom').value.trim();
+  const email  = document.getElementById('f-email').value.trim();
+  const tel    = document.getElementById('f-tel').value.trim();
+
+  if(!prenom || !email || !tel){
+    alert("Laisse-moi juste ton prénom, ton email et ton téléphone pour qu'on puisse se retrouver ✿");
+    return;
+  }
+
+  const profil = computeProfil();
+
+  // Construit un résumé lisible des réponses, pour la préparation
+  // de consultation côté Clémence (usage interne CRM, non affiché à la cliente).
+  // Reprend, question par question, le texte exact de l'option choisie.
+  const resumeLignes = answers.map(function(a, idx){
+    const texteChoisi = QUESTIONS[idx].opts[a.i].t;
+    return "• " + texteChoisi;
+  });
+  const resume_reponses = resumeLignes.join("\n");
+
+  /* ====================================================
+     REMONTÉE DATA VERS GHL via Inbound Webhook
+     ----------------------------------------------------
+     1) Mélanie crée dans GHL un Workflow démarrant par
+        un "Inbound Webhook" → GHL fournit une URL unique.
+     2) Colle cette URL dans GHL_WEBHOOK_URL ci-dessous.
+     3) Le workflow GHL mappe les champs reçus vers le
+        contact, ajoute le tag du profil et fixe la
+        source = "QUIZZ DECLIC".
+     ==================================================== */
+  const GHL_WEBHOOK_URL = "https://services.leadconnectorhq.com/hooks/o082jAoDoAcfofcKkSpB/webhook-trigger/0b27bf2b-f700-4100-b33a-a3f3d71a7f8a";
+
+  const payload = {
+    first_name: prenom,
+    email: email,
+    phone: tel,
+    source: "QUIZZ DECLIC",
+    profil: profil,                 // code court : tient / oublie / cadre / avant / transi
+    profil_label: PROFILS[profil],  // libellé lisible du profil
+    tag_profil: "Profil — " + PROFILS[profil], // texte simple, pour tag GHL
+    resume_reponses: resume_reponses, // résumé interne pour préparer la consultation
+    tags: ["QUIZZ DECLIC", "Profil — " + PROFILS[profil]]
+  };
+
+  // Construit l'URL de redirection vers l'agenda (pré-remplissage)
+  const BOOKING_URL = "https://api.leadconnectorhq.com/widget/booking/LDKr3AhhrPNw4bPSvs29";
+  const redirectUrl = BOOKING_URL
+    + "?first_name=" + encodeURIComponent(prenom)
+    + "&email="      + encodeURIComponent(email)
+    + "&phone="      + encodeURIComponent(tel);
+
+  // Écran de transition
+  document.getElementById('doneText').innerHTML =
+    "Parfait, <strong>"+prenom+"</strong> — je t'emmène vers mon agenda pour choisir ton créneau…";
+  show(sDone);
+
+  // Envoi des données à GHL, PUIS redirection (qu'il réussisse ou non,
+  // on ne bloque jamais la cliente : la redirection a toujours lieu).
+  function goToAgenda(){ window.location.href = redirectUrl; }
+
+  if (GHL_WEBHOOK_URL && GHL_WEBHOOK_URL.indexOf("COLLER_ICI") === -1) {
+    fetch(GHL_WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    })
+    .then(function(){ setTimeout(goToAgenda, 800); })
+    .catch(function(){ setTimeout(goToAgenda, 800); }); // en cas d'échec réseau, on redirige quand même
+  } else {
+    // Webhook pas encore configuré : on log et on redirige (mode démo)
+    console.log('Webhook GHL non configuré. Données qui seraient envoyées :', payload);
+    setTimeout(goToAgenda, 1400);
+  }
+}
+</script>
+</body>
+</html>
