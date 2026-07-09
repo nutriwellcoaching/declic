@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Déclic — NutriWell by Clémence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --capucine:#DB6350;
+    --capucine-fonce:#B84F3F;
+    --ballerine:#ECB5B0;
+    --ballerine-soft:#F8E5E2;
+    --creme:#FAF7F5;
+    --brun:#2D2326;
+    --brun-moyen:#6b5d60;
+    --blanc:#ffffff;
+    --ombre:0 18px 50px -20px rgba(184,79,63,.28);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+
+  html{-webkit-font-smoothing:antialiased}
+
+  body{
+    font-family:'Open Sans',system-ui,sans-serif;
+    background:
+      radial-gradient(120% 80% at 50% -10%, var(--ballerine-soft) 0%, transparent 55%),
+      var(--creme);
+    color:var(--brun);
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px 18px;
+    line-height:1.55;
+  }
+
+  .frame{
+    width:100%;
+    max-width:560px;
+    position:relative;
+  }
+
+  /* ---- carte ---- */
+  .card{
+    background:var(--blanc);
+    border-radius:26px;
+    padding:42px 36px 38px;
+    box-shadow:var(--ombre);
+    position:relative;
+    overflow:hidden;
+  }
+  .card::before{
+    content:"";
+    position:absolute;
+    top:0;left:0;right:0;
+    height:5px;
+    background:linear-gradient(90deg,var(--ballerine),var(--capucine),var(--capucine-fonce));
+  }
+
+  /* ---- en-tête marque ---- */
+  .brand{
+    text-align:center;
+    margin-bottom:6px;
+  }
+  .brand .mono{
+    font-family:'Playfair Display',serif;
+    font-weight:700;
+    color:var(--capucine);
+    font-size:13px;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+  }
+  .brand .sub{
+    font-size:9.5px;
+    letter-spacing:.42em;
+    text-transform:uppercase;
+    color:var(--brun-moyen);
+    margin-top:3px;
+  }
+
+  /* ---- barre de progression ---- */
+  .progress-wrap{
+    margin:26px 0 30px;
+    display:none;
+  }
+  .progress-wrap.show{display:block}
+  .progress-meta{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:9px;
+  }
+  .progress-meta .step{
+    font-family:'Playfair Display',serif;
+    font-style:italic;
+    font-size:14px;
+    color:var(--capucine);
+  }
+  .progress-meta .flower{color:var(--ballerine);font-size:13px;letter-spacing:.25em}
+  .bar{
+    height:6px;
+    background:var(--ballerine-soft);
+    border-radius:99px;
+    overflow:hidden;
+  }
+  .bar-fill{
+    height:100%;
+    width:0;
+    background:linear-gradient(90deg,var(--ballerine),var(--capucine));
+    border-radius:99px;
+    transition:width .45s cubic-bezier(.4,0,.2,1);
+  }
+
+  /* ---- écrans ---- */
+  .screen{display:none;animation:rise .5s cubic-bezier(.2,.7,.3,1)}
+  .screen.active{display:block}
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+  /* ---- accueil ---- */
+  .eyebrow{
+    text-align:center;
+    font-size:11px;
+    letter-spacing:.3em;
+    text-transform:uppercase;
+    color:var(--capucine);
+    margin-bottom:18px;
+    font-weight:600;
+  }
+  h1{
+    font-family:'Playfair Display',serif;
+    font-weight:600;
+    font-size:clamp(38px,11vw,54px);
+    line-height:.98;
+    text-align:center;
+    letter-spacing:-.5px;
+    margin-bottom:4px;
+  }
+  h1 .accent{color:var(--capucine);font-style:italic}
+  .flower-divider{
+    text-align:center;
+    color:var(--ballerine);
+    font-size:16px;
+    letter-spacing:.4em;
+    margin:20px 0 22px;
+  }
+  .lede{
+    font-size:16.5px;
+    color:var(--brun);
+    text-align:center;
+    max-width:42ch;
+    margin:0 auto 8px;
+  }
+  .lede strong{color:var(--capucine-fonce);font-weight:600}
+  .lede.small{font-size:14.5px;color:var(--brun-moyen);margin-top:14px}
+
+  /* ---- questions ---- */
+  .q-text{
+    font-family:'Playfair Display',serif;
+    font-weight:500;
+    font-size:clamp(24px,6.5vw,30px);
+    line-height:1.18;
+    margin-bottom:24px;
+    letter-spacing:-.3px;
+  }
+  .q-intro{
+    font-size:14.5px;
+    color:var(--brun-moyen);
+    margin-bottom:16px;
+    line-height:1.5;
+  }
+  .q-intro strong{color:var(--capucine-fonce);font-weight:600}
+  .options{display:flex;flex-direction:column;gap:11px}
+  .opt{
+    text-align:left;
+    background:var(--creme);
+    border:1.5px solid var(--ballerine-soft);
+    border-radius:15px;
+    padding:17px 19px;
+    font-family:inherit;
+    font-size:15.5px;
+    color:var(--brun);
+    cursor:pointer;
+    transition:all .18s ease;
+    line-height:1.4;
+    position:relative;
+    width:100%;
+  }
+  .opt:hover{
+    border-color:var(--ballerine);
+    background:var(--ballerine-soft);
+    transform:translateX(3px);
+  }
+  .opt:focus-visible{outline:2.5px solid var(--capucine);outline-offset:2px}
+  .opt.chosen{
+    border-color:var(--capucine);
+    background:var(--ballerine-soft);
+    box-shadow:0 6px 18px -10px rgba(219,99,80,.5);
+  }
+
+  /* ---- capture ---- */
+  .capture-title{
+    font-family:'Playfair Display',serif;
+    font-weight:600;
+    font-size:clamp(30px,8vw,42px);
+    text-align:center;
+    margin-bottom:18px;
+    letter-spacing:-.3px;
+  }
+  .capture-body{
+    font-size:16px;
+    text-align:center;
+    color:var(--brun);
+    max-width:44ch;
+    margin:0 auto 8px;
+  }
+  .capture-body strong{color:var(--capucine-fonce);font-weight:600}
+  .capture-body + .capture-body{margin-top:13px;color:var(--brun-moyen);font-size:15px}
+  .reveal-badge{
+    display:inline-block;
+    background:var(--ballerine-soft);
+    color:var(--capucine-fonce);
+    font-family:'Playfair Display',serif;
+    font-style:italic;
+    font-size:19px;
+    padding:10px 22px;
+    border-radius:99px;
+    margin:6px auto 20px;
+    text-align:center;
+  }
+  .fields{margin:26px 0 8px;display:flex;flex-direction:column;gap:13px}
+  .field label{
+    display:block;
+    font-size:12px;
+    letter-spacing:.04em;
+    color:var(--brun-moyen);
+    margin-bottom:6px;
+    font-weight:600;
+  }
+  .field input{
+    width:100%;
+    border:1.5px solid var(--ballerine-soft);
+    background:var(--creme);
+    border-radius:13px;
+    padding:14px 16px;
+    font-family:inherit;
+    font-size:15.5px;
+    color:var(--brun);
+    transition:border-color .18s;
+  }
+  .field input:focus{outline:none;border-color:var(--capucine)}
+  .field input::placeholder{color:#b9adaf}
+
+  /* ---- boutons ---- */
+  .cta{
+    display:block;
+    width:100%;
+    margin-top:22px;
+    background:linear-gradient(135deg,var(--capucine),var(--capucine-fonce));
+    color:var(--blanc);
+    border:none;
+    border-radius:99px;
+    padding:18px 28px;
+    font-family:'Open Sans',sans-serif;
+    font-weight:600;
+    font-size:16px;
+    cursor:pointer;
+    letter-spacing:.01em;
+    box-shadow:0 14px 30px -12px rgba(184,79,63,.6);
+    transition:transform .16s ease,box-shadow .16s ease;
+  }
+  .cta:hover{transform:translateY(-2px);box-shadow:0 20px 38px -12px rgba(184,79,63,.7)}
+  .cta:focus-visible{outline:2.5px solid var(--brun);outline-offset:3px}
+  .cta:disabled{opacity:.6;cursor:default;transform:none}
+  .cta.ghost{
+    background:transparent;
+    color:var(--capucine);
+    box-shadow:none;
+    font-size:14px;
+    padding:10px;
+    margin-top:14px;
+  }
+  .cta.ghost:hover{transform:none;text-decoration:underline}
+
+  .reassure{
+    text-align:center;
+    font-size:12.5px;
+    color:var(--brun-moyen);
+    margin-top:15px;
+  }
+
+  /* ---- back link ---- */
+  .back{
+    background:none;border:none;
+    color:var(--brun-moyen);
+    font-family:inherit;font-size:13px;
+    cursor:pointer;margin-bottom:18px;
+    display:none;padding:4px 0;
+  }
+  .back.show{display:inline-block}
+  .back:hover{color:var(--capucine)}
+
+  .footnote{
+    text-align:center;
+    font-size:10.5px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--brun-moyen);
+    margin-top:24px;
+    opacity:.7;
+  }
+
+  .spinner{
+    width:22px;height:22px;
+    border:2.5px solid rgba(255,255,255,.4);
+    border-top-color:#fff;
+    border-radius:50%;
+    display:inline-block;
+    vertical-align:middle;
+    animation:spin .7s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  @media(max-width:480px){
+    .card{padding:34px 22px 30px;border-radius:22px}
+  }
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="card">
+
+    <div class="brand">
+      <div class="mono">NutriWell</div>
+      <div class="sub">by Clémence</div>
+    </div>
+
+    <!-- progression -->
+    <div class="progress-wrap" id="progressWrap">
+      <div class="progress-meta">
+        <span class="step" id="stepLabel">Question 1</span>
+        <span class="flower">✿</span>
+      </div>
+      <div class="bar"><div class="bar-fill" id="barFill"></div></div>
+    </div>
+
+    <button class="back" id="backBtn">← retour</button>
+
+    <!-- ÉCRAN ACCUEIL -->
+    <section class="screen active" id="screen-intro">
+      <div class="eyebrow">Le parcours offert</div>
+      <h1>Le <span class="accent">Déclic</span></h1>
+      <div class="flower-divider">✿ ✿ ✿</div>
+      <p class="lede">Tu as déjà tout essayé. Les régimes, compter, te priver, te battre contre ton corps… et à chaque fois, ça finit par lâcher.</p>
+      <p class="lede" style="margin-top:14px;font-family:'Playfair Display',serif;font-style:italic;font-size:19px;color:var(--capucine-fonce)">Et si le problème n'avait jamais été ni tes efforts… ni ta volonté&nbsp;?</p>
+      <p class="lede small">7 questions pour découvrir la vraie raison pour laquelle ton corps ne répond plus — celle que personne ne t'a jamais expliquée.</p>
+      <button class="cta" onclick="start()">Je commence&nbsp;→</button>
+      <div class="footnote">2 minutes · entre nous</div>
+    </section>
+
+    <!-- ÉCRANS QUESTIONS (générés en JS) -->
+    <section class="screen" id="screen-question">
+      <p class="q-intro" id="qIntro"></p>
+      <p class="q-text" id="qText"></p>
+      <div class="options" id="qOptions"></div>
+    </section>
+
+    <!-- ÉCRAN RÉVÉLATION + CAPTURE / RDV -->
+    <section class="screen" id="screen-capture">
+      <h2 class="capture-title">Ton déclic. <span style="color:var(--ballerine)">✿</span></h2>
+      <p class="capture-body">Tes réponses sont claires. Ton corps n'est pas cassé, et tu n'as jamais manqué de volonté. Il s'est simplement mis en protection, à force de recevoir les mauvais signaux. Ton profil&nbsp;:</p>
+      <div style="text-align:center"><span class="reveal-badge" id="revealLabel">Le métabolisme en veille</span></div>
+      <p class="capture-body">C'est <strong>ça</strong>, la vraie raison pour laquelle rien n'a tenu jusqu'ici. Pas ta faute. Un mécanisme. Et maintenant que tu l'as compris, tout peut changer — parce qu'un métabolisme, <strong>ça se relance</strong>.</p>
+      <p class="capture-body">Mais pas n'importe comment, et pas toute seule. La méthode pour relancer <strong>ton</strong> métabolisme précisément, je l'ai construite au fil de dizaines de femmes exactement dans ta situation. C'est ma spécialité — et je ne veux pas te la bâcler dans un mail que tu liras en diagonale.</p>
+      <p class="capture-body">On prend un vrai moment ensemble&nbsp;: <strong>30&nbsp;min offertes en visio</strong>, où je t'explique précisément d'où vient ton blocage et le chemin pour en sortir. Tu repars avec <strong>ton playbook personnalisé</strong> — ton plan, adapté à ton profil.</p>
+      <div class="fields">
+        <div class="field">
+          <label for="f-prenom">Ton prénom</label>
+          <input id="f-prenom" type="text" placeholder="Prénom" autocomplete="given-name">
+        </div>
+        <div class="field">
+          <label for="f-email">Ton email</label>
+          <input id="f-email" type="email" placeholder="prenom@email.com" autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="f-tel">Ton téléphone</label>
+          <input id="f-tel" type="tel" placeholder="06 .. .. .. .." autocomplete="tel">
+        </div>
+      </div>
+      <button class="cta" id="submitBtn" onclick="submitQuiz()">Je réserve ma consultation offerte&nbsp;→</button>
+      <p class="reassure">Un échange offert, sans engagement. Tes réponses restent entre nous. ✿</p>
+    </section>
+
+    <!-- ÉCRAN CONFIRMATION / REDIRECTION -->
+    <section class="screen" id="screen-done">
+      <h2 class="capture-title">Parfait. <span style="color:var(--ballerine)">✿</span></h2>
+      <p class="capture-body" id="doneText">Je t'emmène sur mon agenda pour choisir ton créneau…</p>
+      <p class="capture-body" style="font-style:italic;font-family:'Playfair Display',serif;color:var(--capucine-fonce);font-size:18px">On se retrouve très vite pour relancer ta machine. ✿</p>
+    </section>
+
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   LE DÉCLIC — logique quizz  (v2 — angle métabolisme)
+   Scoring invisible : chaque réponse pointe un profil métabolique.
+   Profil dominant = résultat -> tag GHL -> playbook-type.
+   ============================================================ */
+
+/* ---- CONFIG À VÉRIFIER ------------------------------------ */
+// URL du calendrier Déclic (version épurée, sans questions de qualif)
+const BOOKING_URL = "https://api.leadconnectorhq.com/widget/booking/HMham2lZF7ccKBdo4d0M";
+// Webhook GHL (Inbound Webhook) — Mélanie colle l'URL ici.
+// Tant qu'il est vide, le quiz fonctionne quand même et redirige vers le booking.
+const GHL_WEBHOOK_URL = "";
+/* ----------------------------------------------------------- */
+
+// 5 profils métaboliques -> chacun = un playbook-type
+const PROFILS = {
+  veille:   "Le métabolisme en veille",        // restriction chronique, corps en mode survie
+  charge:   "Le métabolisme sous charge",      // stress / charge mentale / craquages du soir
+  hormonal: "Le métabolisme qui a changé",     // post-grossesse, péri-ménopause, hormonal
+  stagne:   "Le métabolisme sous-nourri",      // active/sportive qui fait « bien » et stagne
+  yoyo:     "Le métabolisme jamais relancé"    // multi-régimes, yo-yo, jamais nourri
+};
+
+const QUESTIONS = [
+  {
+    // Q1 — SYMPTÔME : on part de ce qu'elle vit, sans théorie
+    intro:"On commence par toi, simplement.",
+    q:"Aujourd'hui, ce qui te pèse le plus, c'est quoi ?",
+    opts:[
+      {t:"Je mange déjà peu… et pourtant je ne perds plus rien", p:"veille"},
+      {t:"Je craque le soir, épuisée, quand la journée retombe", p:"charge"},
+      {t:"Depuis ma grossesse / mes hormones, mon corps a changé", p:"hormonal"},
+      {t:"Je fais du sport, je fais « tout bien »… mais ça ne suit pas", p:"stagne"},
+      {t:"J'ai enchaîné tellement de régimes que je ne sais plus où j'en suis", p:"yoyo"}
+    ]
+  },
+  {
+    // Q2 — SYMPTÔME (suite) : on établit l'effort fourni, qui deviendra la clé du retournement
+    intro:"Note bien ta réponse d'avant. On va y revenir — parce qu'elle explique beaucoup de choses.",
+    q:"Pour essayer de perdre, tu as surtout fait quoi, jusqu'ici ?",
+    opts:[
+      {t:"J'ai mangé de moins en moins, jusqu'à vraiment très peu", p:"veille"},
+      {t:"J'ai essayé, mais la charge mentale reprend toujours le dessus", p:"charge"},
+      {t:"Ce qui marchait avant ne marche tout simplement plus", p:"hormonal"},
+      {t:"J'ai ajouté du sport, du cardio, encore plus d'efforts", p:"stagne"},
+      {t:"J'ai tout testé, un régime après l'autre, en boucle", p:"yoyo"}
+    ]
+  },
+  {
+    // Q3 — DÉBUT DE RÉVÉLATION : on introduit le mécanisme (mode survie)
+    intro:"Voilà ce que peu de femmes savent&nbsp;: quand tu manques, ton corps ne « désobéit » pas. Il te <strong>protège</strong>. Il croit que tu traverses une famine — alors il ralentit tout et se met à stocker le peu qu'il reçoit.",
+    q:"Les fringales, les envies de sucre, la faim… ça donne quoi chez toi ?",
+    opts:[
+      {t:"J'ai faim en permanence, mon corps réclame sans arrêt", p:"veille"},
+      {t:"Ça explose le soir, quand je suis complètement vidée", p:"charge"},
+      {t:"Des fringales nouvelles, que je n'avais pas avant", p:"hormonal"},
+      {t:"J'arrive à me contrôler… mais mon corps ne bouge pas pour autant", p:"stagne"},
+      {t:"Ça dépend&nbsp;: je tiens, puis je lâche tout d'un coup", p:"yoyo"}
+    ]
+  },
+  {
+    // Q4 — LE DÉCLIC : le retournement contre-intuitif, le "ah donc c'est ÇA"
+    intro:"Et c'est là tout le piège&nbsp;: plus tu manges peu pour forcer la perte, plus ton corps se met en économie. <strong>Ton effort est devenu la cause du blocage.</strong> Ce n'est pas toi qui as échoué — c'est ton corps qui a fait exactement son travail.",
+    q:"Ton énergie, dans tout ça, tu la décrirais comment ?",
+    opts:[
+      {t:"À plat — comme si je tournais au ralenti en permanence", p:"veille"},
+      {t:"Épuisée, je cours partout, je pense à tout le monde sauf moi", p:"charge"},
+      {t:"En dents de scie depuis que mon corps a changé", p:"hormonal"},
+      {t:"Fatiguée alors que je fais pourtant tout « comme il faut »", p:"stagne"},
+      {t:"Ça remonte quand je suis motivée… puis ça retombe", p:"yoyo"}
+    ]
+  },
+  {
+    // Q5 — ANCRAGE : le mécanisme reformulé sur SA voix intérieure
+    intro:"Du coup, cette petite phrase que tu te répètes tout bas… elle n'est pas le signe que tu es « nulle ». C'est le symptôme d'un corps en mode survie.",
+    q:"Justement, celle qui revient le plus dans ta tête, c'est…",
+    opts:[
+      {t:"« Je mange rien et je ne perds toujours pas »", p:"veille"},
+      {t:"« Je m'oublie complètement, je passe toujours après »", p:"charge"},
+      {t:"« Je ne reconnais plus mon corps »", p:"hormonal"},
+      {t:"« Je fais tout bien, pourquoi ça ne marche pas ? »", p:"stagne"},
+      {t:"« Je vais encore reprendre, comme à chaque fois »", p:"yoyo"}
+    ]
+  },
+  {
+    // Q6 — CONSCIENCE ÉMOTIONNELLE : ni ta faute, ni ta génétique → un mécanisme, donc réparable
+    intro:"Alors non&nbsp;: ce n'est ni ta faute, ni ta génétique, ni ton âge. C'est un mécanisme. Et un mécanisme, contrairement à une fatalité, <strong>ça se répare</strong>.",
+    q:"Si rien ne change, ce qui t'inquiète le plus c'est…",
+    opts:[
+      {t:"Que mon corps reste bloqué quoi que je fasse", p:"veille"},
+      {t:"De continuer à m'épuiser sans jamais souffler", p:"charge"},
+      {t:"De ne plus jamais me sentir bien dans ce corps", p:"hormonal"},
+      {t:"De faire tous ces efforts pour rien", p:"stagne"},
+      {t:"De recommencer ce cercle sans fin, encore et encore", p:"yoyo"}
+    ]
+  },
+  {
+    // Q7 — VIE RÉELLE : dernière donnée pour affiner le profil + préparer le "sur-mesure"
+    intro:"Dernière chose, pour que ta lecture colle vraiment à ta vie — pas à une femme théorique.",
+    q:"C'est quoi ton quotidien, en ce moment ?",
+    opts:[
+      {t:"Je fais attention depuis si longtemps que c'est devenu ma norme", p:"veille"},
+      {t:"Boulot, enfants, maison — je gère tout de front", p:"charge"},
+      {t:"Une période de transition (post-grossesse, hormones, cap des 40…)", p:"hormonal"},
+      {t:"Active, sportive, mais les résultats ne suivent pas", p:"stagne"},
+      {t:"Dans la boucle régime / reprise depuis des années", p:"yoyo"}
+    ]
+  }
+];
+
+let current = 0;
+const answers = [];
+
+const wrap   = document.getElementById('progressWrap');
+const fill   = document.getElementById('barFill');
+const label  = document.getElementById('stepLabel');
+const back   = document.getElementById('backBtn');
+
+const sIntro   = document.getElementById('screen-intro');
+const sQuestion= document.getElementById('screen-question');
+const sCapture = document.getElementById('screen-capture');
+const sDone    = document.getElementById('screen-done');
+
+const qIntro   = document.getElementById('qIntro');
+const qText    = document.getElementById('qText');
+const qOptions = document.getElementById('qOptions');
+
+function show(el){
+  [sIntro,sQuestion,sCapture,sDone].forEach(s=>s.classList.remove('active'));
+  el.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function start(){
+  current = 0;
+  answers.length = 0;
+  wrap.classList.add('show');
+  renderQuestion();
+}
+
+function renderQuestion(){
+  const item = QUESTIONS[current];
+  qIntro.innerHTML = item.intro || '';
+  qText.textContent = item.q;
+  qOptions.innerHTML = '';
+  item.opts.forEach((o,i)=>{
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.textContent = o.t;
+    if(answers[current] && answers[current].i===i) b.classList.add('chosen');
+    b.onclick = ()=>choose(o.p,i);
+    qOptions.appendChild(b);
+  });
+  const pct = (current/QUESTIONS.length)*100;
+  fill.style.width = pct + '%';
+  label.textContent = 'Question ' + (current+1);
+  back.classList.toggle('show', current>0);
+  show(sQuestion);
+}
+
+function choose(profil,i){
+  answers[current] = {profil, i};
+  setTimeout(()=>{
+    if(current < QUESTIONS.length-1){
+      current++;
+      renderQuestion();
+    } else {
+      fill.style.width = '100%';
+      goCapture();
+    }
+  },220);
+}
+
+back.onclick = ()=>{
+  if(current>0){ current--; renderQuestion(); }
+};
+
+function computeProfil(){
+  const tally = {};
+  answers.forEach(a=>{ tally[a.profil]=(tally[a.profil]||0)+1; });
+  let best='veille', max=-1;
+  // ordre de préférence en cas d'égalité
+  const tie = ['veille','charge','hormonal','stagne','yoyo'];
+  tie.forEach(k=>{ if((tally[k]||0)>max){max=tally[k]||0;best=k;} });
+  return best;
+}
+
+function buildResume(){
+  // Résumé lisible des réponses, pour le champ custom GHL
+  return QUESTIONS.map((item,idx)=>{
+    const a = answers[idx];
+    const rep = (a!=null) ? item.opts[a.i].t : '—';
+    return "Q"+(idx+1)+" : "+rep;
+  }).join(" | ");
+}
+
+function goCapture(){
+  wrap.classList.remove('show');
+  back.classList.remove('show');
+  const profil = computeProfil();
+  document.getElementById('revealLabel').textContent = PROFILS[profil];
+  show(sCapture);
+}
+
+async function submitQuiz(){
+  const prenom = document.getElementById('f-prenom').value.trim();
+  const email  = document.getElementById('f-email').value.trim();
+  const tel    = document.getElementById('f-tel').value.trim();
+
+  if(!prenom || !email || !tel){
+    alert("Laisse-moi juste ton prénom, ton email et ton téléphone pour qu'on puisse se retrouver ✿");
+    return;
+  }
+
+  const profil = computeProfil();
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>';
+
+  const payload = {
+    prenom: prenom,
+    email: email,
+    telephone: tel,
+    profil: profil,                    // clé courte -> pour le tag GHL
+    profil_label: PROFILS[profil],     // libellé lisible
+    tag: "QUIZZ DECLIC",
+    resume_reponses: buildResume(),
+    source: "Le Declic"
+  };
+
+  // Envoi vers GHL si le webhook est configuré
+  if (GHL_WEBHOOK_URL) {
+    try {
+      await fetch(GHL_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+    } catch (e) {
+      console.error("Webhook GHL — échec (on redirige quand même) :", e);
+    }
+  } else {
+    console.log("À envoyer vers GHL (webhook non configuré) :", payload);
+  }
+
+  // Confirmation + redirection vers le calendrier Déclic
+  document.getElementById('doneText').innerHTML =
+    "Parfait <strong>"+prenom+"</strong> — je t'emmène sur mon agenda pour choisir ton créneau…";
+  show(sDone);
+
+  setTimeout(()=>{ window.location.href = BOOKING_URL; }, 1600);
+}
+</script>
+</body>
+</html>
